@@ -5,8 +5,6 @@ import (
 	"io"
 	"strings"
 	"testing"
-	"testing/fstest"
-	"time"
 
 	"github.com/stretchr/testify/require"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -50,20 +48,6 @@ spec:
 func Test_decodeCRDs(t *testing.T) {
 	readCloser := io.NopCloser(strings.NewReader(testCRDDocument))
 	crds, err := decodeCRDs(readCloser)
-	require.Nil(t, err)
-	require.Len(t, crds, 1)
-}
-
-func Test_findCRDs(t *testing.T) {
-	filesystem := fstest.MapFS{
-		"a.yaml": &fstest.MapFile{
-			Data:    []byte(testCRDDocument),
-			Mode:    0700,
-			ModTime: time.Now(),
-			Sys:     nil,
-		},
-	}
-	crds, err := findCRDs(filesystem, ".")
 	require.Nil(t, err)
 	require.Len(t, crds, 1)
 }

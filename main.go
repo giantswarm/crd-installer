@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 	"reflect"
 
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -82,9 +83,9 @@ func decodeCRDs(readCloser io.ReadCloser) ([]*v1.CustomResourceDefinition, error
 	return crds, nil
 }
 
-func findCRDs(filesystem fs.FS, dir string) ([]*v1.CustomResourceDefinition, error) {
+func findCRDs(dir string) ([]*v1.CustomResourceDefinition, error) {
 	var crds []*v1.CustomResourceDefinition
-	err := fs.WalkDir(filesystem, dir, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -92,7 +93,7 @@ func findCRDs(filesystem fs.FS, dir string) ([]*v1.CustomResourceDefinition, err
 			return nil
 		}
 
-		documentReader, err := filesystem.Open(path)
+		documentReader, err := os.Open(path)
 		if err != nil {
 			return err
 		}
@@ -113,8 +114,7 @@ func findCRDs(filesystem fs.FS, dir string) ([]*v1.CustomResourceDefinition, err
 }
 
 func run() error {
-	filesystem := os.DirFS("./")
-	crds, err := findCRDs(filesystem, *crdDirectory)
+	crds, err := findCRDs(*crdDirectory)
 	if err != nil {
 		return err
 	}

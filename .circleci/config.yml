@@ -14,12 +14,27 @@ workflows:
               only: /^v.*/
 
       - architect/push-to-docker:
-          name: push-to-quay
+          context: "architect"
+          name: push-crd-installer-to-docker
+          image: "docker.io/giantswarm/crd-installer"
+          username_envar: "DOCKER_USERNAME"
+          password_envar: "DOCKER_PASSWORD"
+          requires:
+            - go-build
+          # Needed to trigger job also on git tag.
+          filters:
+            tags:
+              only: /^v.*/
+
+      - architect/push-to-docker:
+          context: "architect"
+          name: push-crd-installer-to-quay
           image: "quay.io/giantswarm/crd-installer"
           username_envar: "QUAY_USERNAME"
           password_envar: "QUAY_PASSWORD"
           requires:
             - go-build
+          # Needed to trigger job also on git tag.
           filters:
             tags:
               only: /^v.*/
