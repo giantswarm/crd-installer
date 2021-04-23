@@ -1,30 +1,8 @@
-[![CircleCI](https://circleci.com/gh/giantswarm/template.svg?style=shield)](https://circleci.com/gh/giantswarm/template)
+[![CircleCI](https://circleci.com/gh/giantswarm/crd-installer.svg?style=shield)](https://circleci.com/gh/giantswarm/crd-installer)
 
-# REPOSITORY_NAME
+# crd-installer
 
-This is a template repository containing some basic files every repository
-needs.
-
-To use it just hit `Use this template` button or [this link][generate].
-
-Things to do with your newly created repo:
-
-1. Run`devctl replace -i "REPOSITORY_NAME" "$(basename $(git rev-parse
-   --show-toplevel))" --ignore '.git/**' '**'`.
-2. Run `devctl replace -i "template" "$(basename $(git rev-parse
-   --show-toplevel))" --ignore '.git/**' '**'`.
-3. Go to https://github.com/giantswarm/REPOSITORY_NAME/settings and make sure `Allow
-   merge commits` box is unchecked and `Automatically delete head branches` box
-   is checked.
-4. Go to https://github.com/giantswarm/REPOSITORY_NAME/settings/access and add
-   `giantswarm/bots` with `Write` access and `giantswarm/employees` with
-   `Admin` access.
-5. Add this repository to https://github.com/giantswarm/github.
-6. Create quay.io docker repository if needed.
-7. Add the project to the CircleCI:
-   https://circleci.com/setup-project/gh/giantswarm/REPOSITORY_NAME
-8. Change the badge (with style=shield):
-   https://circleci.com/gh/giantswarm/REPOSITORY_NAME.svg?style=shield&circle-token=TOKEN_FOR_PRIVATE_REPO
-   If this is a private repository token with scope `status` will be needed.
-
-[generate]: https://github.com/giantswarm/template/generate
+This program is intended to be used as an init-container in a Kubernetes pod to ensure CRDs have been installed or 
+updated before the main container runs. It accepts a single flag, `-dir` which should point to a directory containing
+one or more YAML-formatted CRDs to be installed. It uses in-cluster credentials to authenticate to the Kubernetes API
+using a service account token.

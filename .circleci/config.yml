@@ -4,11 +4,22 @@ orbs:
   architect: giantswarm/architect@2.7.0
 
 workflows:
-  test:
+  build:
     jobs:
-      - architect/go-test:
-          name: go-test
+      - architect/go-build:
+          name: go-build
+          binary: crd-installer
           filters:
-            # Trigger job also on git tag.
+            tags:
+              only: /^v.*/
+
+      - architect/push-to-docker:
+          name: push-to-quay
+          image: "quay.io/giantswarm/crd-installer"
+          username_envar: "QUAY_USERNAME"
+          password_envar: "QUAY_PASSWORD"
+          requires:
+            - go-build
+          filters:
             tags:
               only: /^v.*/
