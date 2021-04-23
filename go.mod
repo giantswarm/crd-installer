@@ -9,3 +9,6 @@ require (
 	k8s.io/client-go v0.20.6
 	sigs.k8s.io/controller-runtime v0.8.3
 )
+
+// v3.3.13 is required by bketelsen/crypt. Can remove this replace when updated.
+replace github.com/coreos/etcd v3.3.13+incompatible => github.com/coreos/etcd v3.3.25+incompatible
