@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Initialize scheme with apiextensions v1 types to fix unknown kind error.
+
+### Added
+
+- Add logging.
+- Check CRD status to ensure that it has been accepted by Kubernetes.
+
 ## [0.1.0] - 2021-04-26
 
 ### Added
