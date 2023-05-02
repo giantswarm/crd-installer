@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed again path where to look for crds in calico source zip (made it work for all releases from 3.21 to 3.25).
+
 ## [0.1.2] - 2022-01-14
 
 ### Changed
